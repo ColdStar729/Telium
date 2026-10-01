@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Telium in C++\\x64\\Debug\\Telium in C++.obj",
+            "outputs": [
+                "Telium in C++\\x64\\Debug\\Telium in C++.cpp.obj.dt.module.json",
+                "Telium in C++\\x64\\Debug\\Telium in C++.cpp.obj.dt.d.json"
+            ],
+            "requires": []
+        }
+    ]
+}
