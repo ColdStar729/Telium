@@ -47,6 +47,44 @@ int Display_Map() {
     return 0;
 }
 
+list<string> Set_Up_Map() {
+    list<int> Final_Setup;
+    list<int> Available_Rooms = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17};
+    
+    int Queen_Spawn = Random_Number(7) + 10;
+    Final_Setup.assign(1, Queen_Spawn);
+    Available_Rooms.remove(Queen_Spawn);
+
+    int Num_Of_Aliens = 5;
+    for (int i = 0; i < Num_Of_Aliens; i++) {
+        std::srand(std::time(0)); 
+        int index = std::rand() % Available_Rooms.size();
+        int Alien_Spawn = Available_Rooms[index];
+        Available_Rooms.remove(index);
+        Final_Setup.assign(1, Alien_Spawn);
+    }
+    
+    int Num_Of_Fuel_Tanks = 3;
+    for (int i = 0; i < Num_Of_Fuel_Tanks; i++) {
+        std::srand(std::time(0)); 
+        int index = std::rand() % Available_Rooms.size();
+        int Fuel_Spawn = Available_Rooms[index];
+        Available_Rooms.remove(index);
+        Final_Setup.assign(1, Fuel_Spawn);
+
+    }
+
+    int Num_Of_Vents = 2;
+    for (int i =0; i < Num_Of_Vents; i++) {
+        std::srand(std::time(0)); 
+        int index = std::rand() % Available_Rooms.size();
+        int Vent_Spawn = Available_Rooms[index];
+        Available_Rooms.remove[index];
+        Final_Setup.assign(1, Vent_Spawn)
+    }
+    return Final_Setup;
+}
+
 list<int> Give_Possible_Moves(int cell) {
 
     cout << endl;
@@ -130,8 +168,17 @@ int main() {
     int Difficulty = Select_Difficulty();
 
     int Current_Cell = 1;
-    
 
+    
+    list<int> Set_Up = Set_Up_Map();
+
+    int Moves = 0;
+
+    for (Moves : Available_Moves) {
+        cout << Moves;
+    }
+
+    
     while (true) {
 
         Display_Map();
