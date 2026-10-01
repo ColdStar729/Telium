@@ -7,12 +7,21 @@
 #include <algorithm>
 #include <iostream>
 #include <stdlib.h>
+#include <ctime>
+#include <limits>
+
+using namespace std;
 
 void Clear_Console() {
     system("cls");
 }
 
-using namespace std;
+int Random_Number(int Number) {
+    srand(time(0));
+    int Rand_Num = rand() % 100;
+
+    return Rand_Num;
+}
 
 int Select_Difficulty() {
     int Difficulty;
@@ -33,14 +42,13 @@ int Display_Map() {
     cout << "|      |       |       |     |  " << endl;
     cout << "16 --- 7 ----- 6 ----- 5 --- 13 " << endl;
     cout << "       |               |        " << endl;
-    cout << "       15 ------------ 14       " << endl;
+    cout << "       15 ------------ 14       " << endl << endl;
 
     return 0;
 }
 
 list<int> Give_Possible_Moves(int cell) {
 
-    cout << cell << endl;
     cout << endl;
     list<int> Available_Moves;
 
@@ -79,9 +87,6 @@ list<int> Give_Possible_Moves(int cell) {
             break;
         }
     }
-    for (int Moves : Available_Moves) {
-        cout << Moves << endl;
-    }
 
     return Available_Moves;
 }
@@ -98,11 +103,21 @@ int move(int Current_Cell) {
     while (Correct_Choice == false) {
 
         cout << "Enter the cell you would like to move to:  ";
-        cin >> Cell_Choice;
-
-        for (int Moves : Available_Moves) {
-            if (Cell_Choice == Moves) {
-                Correct_Choice = true;
+        
+        while (!(cin >> Cell_Choice)) {
+            cout << "Please enter a valid input  " << endl << "Enter the cell you would like to move to ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        if (Cell_Choice < 1 || Cell_Choice > 17) {
+            Correct_Choice = false;
+            cout << "Please enter a valid input" << endl;
+        }
+        else {
+            for (int Moves : Available_Moves) {
+                if (Cell_Choice == Moves) {
+                    Correct_Choice = true;
+                }
             }
         }
     }
@@ -113,14 +128,19 @@ int move(int Current_Cell) {
 
 int main() {
     int Difficulty = Select_Difficulty();
-    Display_Map();
 
     int Current_Cell = 1;
+    
 
-    Current_Cell = move(Current_Cell);
+    while (true) {
 
-    cout << Current_Cell;
-
+        Display_Map();
+        cout << "You currently are in cell " << Current_Cell;
+    
+        Current_Cell = move(Current_Cell);
+    
+    }
+    
     return 0;
 
 }
