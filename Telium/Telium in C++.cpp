@@ -52,20 +52,20 @@ list<int> Set_Up_Map() {
     list<int> Available_Rooms = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17};
     srand(time(NULL));
     
-    int Queen_Spawn = Random_Number(7) + 10;
+    int Queen_Spawn = Random_Number(7) + 11;
     Final_Setup.push_back(Queen_Spawn);
 
     int Num_Of_Aliens = 5;
     int Alien_Spawn;
     for (int i = 0; i < Num_Of_Aliens; i++) {
-        Alien_Spawn = (rand() % 16) + 1;
+        Alien_Spawn = (rand() % 16) + 2;
         Final_Setup.push_back(Alien_Spawn);
     }
     
     int Num_Of_Fuel_Tanks = 3;
     int Fuel_Spawn;
     for (int i = 0; i < Num_Of_Fuel_Tanks; i++) {
-        Fuel_Spawn = (rand() % 16) + 1;
+        Fuel_Spawn = (rand() % 16) + 2;
         Final_Setup.push_back(Fuel_Spawn);
 
     }
@@ -155,7 +155,6 @@ int move(int Current_Cell) {
         }
     }
 
-
     return Cell_Choice;
 }
 
@@ -180,6 +179,8 @@ int Check_Cell(int Cell, list<int> Set_Up) {
         }
     }
 
+    cout << Queen_Loc << endl;
+
     for (int Alien : Alien_Loc) {
         cout << Alien << " ";
     }
@@ -197,6 +198,14 @@ int Check_Cell(int Cell, list<int> Set_Up) {
     }
 
     cout << endl;
+
+    bool Is_Alien = (std::find(Alien_Loc.begin(), Alien_Loc.end(), Cell) != Alien_Loc.end());
+
+    if (Is_Alien == true) {
+        cout << "There is an enemy";
+        
+    }
+        
         
     return 0;
 }
@@ -206,10 +215,8 @@ int main() {
 
     int Current_Cell = 1;
     
-    
     list<int> Set_Up = Set_Up_Map();
 
-    Check_Cell(Current_Cell, Set_Up);
 
     int Moves = 0;
 
@@ -219,7 +226,7 @@ int main() {
         cout << "You currently are in cell " << Current_Cell;
     
         Current_Cell = move(Current_Cell);
-    
+        Check_Cell(Current_Cell, Set_Up);
     }
     
     return 0;
