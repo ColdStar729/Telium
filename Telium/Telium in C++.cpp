@@ -159,21 +159,57 @@ int move(int Current_Cell) {
     return Cell_Choice;
 }
 
-int Check_Cell(int Cell, list<int> Set_UP) {
+int Check_Cell(int Cell, list<int> Set_Up) {
+    int Queen_Loc;
+    list<int> Alien_Loc;
+    list<int> Fuel_Loc;
+    list<int> Vent_Loc;
+
+
+    int iterator = -1;
+    for (int Locs : Set_Up) {
+        iterator++;
+        if (iterator == 0) {
+            Queen_Loc = Locs;
+        } else if (iterator > 0 && iterator < 6) {
+            Alien_Loc.push_back(Locs);
+        } else if (iterator > 5 && iterator < 9) {
+            Fuel_Loc.push_back(Locs);
+        } else if (iterator > 8) {
+            Vent_Loc.push_back(Locs);
+        }
+    }
+
+    for (int Alien : Alien_Loc) {
+        cout << Alien << " ";
+    }
+
+    cout << endl;
+
+    for (int Fuel : Fuel_Loc) {
+        cout << Fuel << " ";
+    }
+
+    cout << endl;
     
+    for (int Vent : Vent_Loc) {
+        cout << Vent << " ";
+    }
+
+    cout << endl;
+        
+    return 0;
 }
 
 int main() {
     int Difficulty = Select_Difficulty();
 
     int Current_Cell = 1;
-
+    
     
     list<int> Set_Up = Set_Up_Map();
 
-    for (int Set : Set_Up) {
-        cout << Set << endl;
-    }
+    Check_Cell(Current_Cell, Set_Up);
 
     int Moves = 0;
 
