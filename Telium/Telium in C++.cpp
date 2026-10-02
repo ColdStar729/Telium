@@ -13,10 +13,12 @@
 using namespace std;
 
 void Clear_Console() {
+    //Clears the Console
     system("cls");
 }
 
 int Random_Number(int Number) {
+    //Generates a random Number from 0 - "Number"
     srand(time(0));
     int Rand_Num = rand() % Number;
    
@@ -24,6 +26,7 @@ int Random_Number(int Number) {
 }
 
 int Select_Difficulty() {
+    //Selects the Difficulty for this game and returns it to main
     int Difficulty;
     cout << "1 - Easy" << endl << "2 - Medium" << endl << "3 - Hard" << endl << "4 - Super Hard" << endl;
     cout << "Select your Difficulty:  ";
@@ -34,6 +37,7 @@ int Select_Difficulty() {
 }
 
 int Display_Map() {
+    //Displays the Map
     cout << "       10 ------------ 11       " << endl;
     cout << "       |               |        " << endl;
     cout << "17 --- 9 ----- 2 ----- 3 --- 12 " << endl;
@@ -48,20 +52,24 @@ int Display_Map() {
 }
 
 list<int> Set_Up_Map() {
+    //Randomly Places all the items across the map (exluding 1)
     list<int> Final_Setup;
     list<int> Available_Rooms = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17};
     srand(time(NULL));
-    
+
+    //Determines where the quees will be placed, can only be placed on the outside rooms (10-17)
     int Queen_Spawn = Random_Number(7) + 11;
     Final_Setup.push_back(Queen_Spawn);
 
+    //Determines where the 5 Aliens will be placed
     int Num_Of_Aliens = 5;
     int Alien_Spawn;
     for (int i = 0; i < Num_Of_Aliens; i++) {
         Alien_Spawn = (rand() % 16) + 2;
         Final_Setup.push_back(Alien_Spawn);
     }
-    
+
+    //Determines where the 3 fuel tanks will be placed
     int Num_Of_Fuel_Tanks = 3;
     int Fuel_Spawn;
     for (int i = 0; i < Num_Of_Fuel_Tanks; i++) {
@@ -70,21 +78,24 @@ list<int> Set_Up_Map() {
 
     }
 
+    //Determines where the 2 connected vents will be placed
     int Num_Of_Vents = 2;
     int Vent_Spawn;
     for (int i =0; i < Num_Of_Vents; i++) {
         Vent_Spawn = (rand() % 16) + 1;
         Final_Setup.push_back(Vent_Spawn);
     }
-    
+
+    //Returns a list with the hexes of all the placements are, in this order: (Queen, Alien, Alien, Alien, Alien, Alien, Fuel, Fuel, Fuel, Vent, Vent)
     return Final_Setup;
 }
 
 list<int> Give_Possible_Moves(int cell) {
-
+    //Takes a cell, and returns all the cells that can be moved to from that cell
     cout << endl;
     list<int> Available_Moves;
 
+    // Cell number is the leftmost value on each row, then it is the cells that can be moved from that cell on the rest of that row 
     int matrix[17][5]{
         {1,2,4,6,8},
         {2,1,3,9,0},
@@ -104,6 +115,8 @@ list<int> Give_Possible_Moves(int cell) {
         {16,7,17,0,0},
         {17,9,16,0,0},
     };
+
+    //Goes through the matrix until it find the requested cell number, then loops through that row and adds the numbers of the cells that can be moved to to the Available_Moves list
     for (int i = 0; i < 17; i++) {
         if (matrix[i][0] == cell) {
             for (int j = 0; j < 5; j++) {
@@ -120,33 +133,38 @@ list<int> Give_Possible_Moves(int cell) {
             break;
         }
     }
-
+    
     return Available_Moves;
 }
 
 int move(int Current_Cell) {
+    //Used to move the player throughout the rooms
 
     list<int> Available_Moves;
+    //Uses the Give_Possible_Moves function to get a list of the cells that can be moved to from the current cell
     Available_Moves = Give_Possible_Moves(Current_Cell);
 
     bool Correct_Choice = false;
     int Cell_Choice = 0;
 
-
+    // Stays in the while loop until the user enters a valid cell/input
     while (Correct_Choice == false) {
 
         cout << "Enter the cell you would like to move to:  ";
-        
+
+        //Stays in the secondary while loop until the user enters a valid integer
         while (!(cin >> Cell_Choice)) {
             cout << "Please enter a valid input  " << endl << "Enter the cell you would like to move to ";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
+        //Determines whether the users entry is outside the valid range
         if (Cell_Choice < 1 || Cell_Choice > 17) {
             Correct_Choice = false;
             cout << "Please enter a valid input" << endl;
         }
         else {
+            //If the users entry is valid, exits the while loop 
             for (int Moves : Available_Moves) {
                 if (Cell_Choice == Moves) {
                     Correct_Choice = true;
@@ -159,12 +177,13 @@ int move(int Current_Cell) {
 }
 
 int Check_Cell(int Cell, list<int> Set_Up) {
+    //Defines lists/variables for the locations of the items, split into their respective catagories
     int Queen_Loc;
     list<int> Alien_Loc;
     list<int> Fuel_Loc;
     list<int> Vent_Loc;
 
-
+    //Basiically goes through the Set_Up list and splits it into their catagories
     int iterator = -1;
     for (int Locs : Set_Up) {
         iterator++;
@@ -201,30 +220,43 @@ int Check_Cell(int Cell, list<int> Set_Up) {
 
     bool Is_Alien = (std::find(Alien_Loc.begin(), Alien_Loc.end(), Cell) != Alien_Loc.end());
 
+     bool Is_Fuel = (std::find(Fuel_Loc.begin(), Fuel_Loc.end(), Cell) != Fuel_Loc.end());
+
+    bool Is_Vent = (std::find(Vent_Loc.begin(), Vent_Loc.end(), Cell) != Vent_Loc.end());
+
     if (Is_Alien == true) {
-        cout << "There is an enemy";
-        
+        cout << "There is an enemy" << endl;
     }
-        
-        
+
+    if (Is_Fuel == true) {
+        cout << "There is a fuel tank" << endl;
+    }
+
+    if (Is_Vent == true) {
+        cout << "There is an vent" << endl;
+    }
+    
     return 0;
 }
 
 int main() {
+    //Starts with the user setting their difficulty
     int Difficulty = Select_Difficulty();
 
+    //Defines the starting cell as 1
     int Current_Cell = 1;
-    
+
+    //Randomly places the items across the map
     list<int> Set_Up = Set_Up_Map();
 
-
-    int Moves = 0;
-
     while (true) {
+        //Keeps the game running for all eternity - will add the nessecary condition/s later
 
+        //Displays the map and tells the user which cell they are currently in
         Display_Map();
         cout << "You currently are in cell " << Current_Cell;
-    
+        
+        //Moves the user and checks what is in that cell
         Current_Cell = move(Current_Cell);
         Check_Cell(Current_Cell, Set_Up);
     }
