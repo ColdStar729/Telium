@@ -58,18 +58,16 @@ list<string> Set_Up_Map() {
     int Num_Of_Aliens = 5;
     for (int i = 0; i < Num_Of_Aliens; i++) {
         std::srand(std::time(0)); 
-        int index = std::rand() % Available_Rooms.size();
-        int Alien_Spawn = Available_Rooms[index];
-        Available_Rooms.remove(index);
+        int Alien_Spawn = std::rand() % Available_Rooms.size();
+        Available_Rooms.remove(Alien_Spawn)
         Final_Setup.assign(1, Alien_Spawn);
     }
     
     int Num_Of_Fuel_Tanks = 3;
     for (int i = 0; i < Num_Of_Fuel_Tanks; i++) {
         std::srand(std::time(0)); 
-        int index = std::rand() % Available_Rooms.size();
-        int Fuel_Spawn = Available_Rooms[index];
-        Available_Rooms.remove(index);
+        int Fuel_Spawn = std::rand() % Available_Rooms.size();
+        Available_Rooms.remove(Fuel_Spawn);
         Final_Setup.assign(1, Fuel_Spawn);
 
     }
@@ -77,9 +75,8 @@ list<string> Set_Up_Map() {
     int Num_Of_Vents = 2;
     for (int i =0; i < Num_Of_Vents; i++) {
         std::srand(std::time(0)); 
-        int index = std::rand() % Available_Rooms.size();
-        int Vent_Spawn = Available_Rooms[index];
-        Available_Rooms.remove[index];
+        int Vent_Spawn = std::rand() % Available_Rooms.size();
+        Available_Rooms.remove[Vent_Spawn];
         Final_Setup.assign(1, Vent_Spawn)
     }
     return Final_Setup;
