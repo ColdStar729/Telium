@@ -18,8 +18,8 @@ void Clear_Console() {
 
 int Random_Number(int Number) {
     srand(time(0));
-    int Rand_Num = rand() % 100;
-
+    int Rand_Num = rand() % Number;
+   
     return Rand_Num;
 }
 
@@ -47,38 +47,36 @@ int Display_Map() {
     return 0;
 }
 
-list<string> Set_Up_Map() {
+list<int> Set_Up_Map() {
     list<int> Final_Setup;
     list<int> Available_Rooms = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17};
+    srand(time(NULL));
     
     int Queen_Spawn = Random_Number(7) + 10;
-    Final_Setup.assign(1, Queen_Spawn);
-    Available_Rooms.remove(Queen_Spawn);
+    Final_Setup.push_back(Queen_Spawn);
 
     int Num_Of_Aliens = 5;
+    int Alien_Spawn;
     for (int i = 0; i < Num_Of_Aliens; i++) {
-        std::srand(std::time(0)); 
-        int Alien_Spawn = std::rand() % Available_Rooms.size();
-        Available_Rooms.remove(Alien_Spawn)
-        Final_Setup.assign(1, Alien_Spawn);
+        Alien_Spawn = (rand() % 16) + 1;
+        Final_Setup.push_back(Alien_Spawn);
     }
     
     int Num_Of_Fuel_Tanks = 3;
+    int Fuel_Spawn;
     for (int i = 0; i < Num_Of_Fuel_Tanks; i++) {
-        std::srand(std::time(0)); 
-        int Fuel_Spawn = std::rand() % Available_Rooms.size();
-        Available_Rooms.remove(Fuel_Spawn);
-        Final_Setup.assign(1, Fuel_Spawn);
+        Fuel_Spawn = (rand() % 16) + 1;
+        Final_Setup.push_back(Fuel_Spawn);
 
     }
 
     int Num_Of_Vents = 2;
+    int Vent_Spawn;
     for (int i =0; i < Num_Of_Vents; i++) {
-        std::srand(std::time(0)); 
-        int Vent_Spawn = std::rand() % Available_Rooms.size();
-        Available_Rooms.remove[Vent_Spawn];
-        Final_Setup.assign(1, Vent_Spawn)
+        Vent_Spawn = (rand() % 16) + 1;
+        Final_Setup.push_back(Vent_Spawn);
     }
+    
     return Final_Setup;
 }
 
@@ -161,6 +159,10 @@ int move(int Current_Cell) {
     return Cell_Choice;
 }
 
+int Check_Cell(int Cell, list<int> Set_UP) {
+    
+}
+
 int main() {
     int Difficulty = Select_Difficulty();
 
@@ -169,13 +171,12 @@ int main() {
     
     list<int> Set_Up = Set_Up_Map();
 
-    int Moves = 0;
-
-    for (Moves : Available_Moves) {
-        cout << Moves;
+    for (int Set : Set_Up) {
+        cout << Set << endl;
     }
 
-    
+    int Moves = 0;
+
     while (true) {
 
         Display_Map();
