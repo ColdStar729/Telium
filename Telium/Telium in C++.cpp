@@ -19,22 +19,28 @@ void Clear_Console() {
 
 int Random_Number(int Number) {
     //Generates a random Number from 0 - "Number"
-    srand(time(0));
+    srand(time(NULL));
     int Rand_Num = rand() % Number;
    
     return Rand_Num;
 }
 
 int Choose_Radnom_Item_From_List(list<int> List1) {
-    int Rand_Num = Random_Number(List1.size()) + 1;
+    int Rand_Num = Random_Number(List1.size());
+    cout << endl << Rand_Num << endl;
     int Placeholder = -1;
     int Item;
+
+    for (int i : List1) {
+        cout << i << " ";
+    }
     for (int i : List1) {
         Placeholder++;
-        if (i == Placeholder) {
-            Item = Placeholder;
+        if (Rand_Num == Placeholder) {
+            Item = i;
         }
     }
+    cout << endl << Item << endl;
     return Item;
 }
 
