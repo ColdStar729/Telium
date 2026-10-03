@@ -25,6 +25,19 @@ int Random_Number(int Number) {
     return Rand_Num;
 }
 
+int Choose_Radnom_Item_From_List(list<int> List1) {
+    int Rand_Num = Random_Number(List1.size()) + 1;
+    int Placeholder = -1;
+    int Item;
+    for (int i : List1) {
+        Placeholder++;
+        if (i == Placeholder) {
+            Item = Placeholder;
+        }
+    }
+    return Item;
+}
+
 int Select_Difficulty() {
     //Selects the Difficulty for this game and returns it to main
     int Difficulty;
@@ -176,6 +189,40 @@ int move(int Current_Cell) {
     return Cell_Choice;
 }
 
+list<int> Move_Aliens(list<int> Set_Up) {
+    list<int> Alien_Loc;
+    int iterator = -1;
+    list<int> New_Set_Up;
+    list<int> New_Alien_Loc;
+    
+    for (int Locs : Set_Up) {
+        iterator++;
+        if (Locs == 18) {
+            ;
+        }
+        else if (iterator > 0 && iterator < 6) {
+            Alien_Loc.push_back(Locs);
+        }
+    }
+    
+    for (int Locs : Alien_Loc) {
+        list<int> Available_Moves = Give_Possible_Moves(Locs);
+        int New_Move = Choose_Radnom_Item_From_List(Available_Moves);
+        cout << endl << New_Move << endl;
+        New_Alien_Loc.push_back(New_Move);
+    }
+
+    for (int i : Alien_Loc) {
+        cout << endl << i;
+    }
+
+    for (int i : New_Alien_Loc) {
+        cout << endl << i;
+    }
+    
+    return Set_Up;
+}
+
 int Check_Cell(int Cell, list<int> Set_Up) {
     //Defines lists/variables for the locations of the items, split into their respective catagories
     int Queen_Loc;
@@ -255,6 +302,7 @@ int main() {
         //Displays the map and tells the user which cell they are currently in
         Display_Map();
         cout << "You currently are in cell " << Current_Cell;
+        Move_Aliens(Set_Up);
         
         //Moves the user and checks what is in that cell
         Current_Cell = move(Current_Cell);
