@@ -27,20 +27,15 @@ int Random_Number(int Number) {
 
 int Choose_Radnom_Item_From_List(list<int> List1) {
     int Rand_Num = Random_Number(List1.size());
-    cout << endl << Rand_Num << endl;
     int Placeholder = -1;
     int Item;
 
-    for (int i : List1) {
-        cout << i << " ";
-    }
     for (int i : List1) {
         Placeholder++;
         if (Rand_Num == Placeholder) {
             Item = i;
         }
     }
-    cout << endl << Item << endl;
     return Item;
 }
 
@@ -115,7 +110,7 @@ list<int> Give_Possible_Moves(int cell) {
     list<int> Available_Moves;
 
     // Cell number is the leftmost value on each row, then it is the cells that can be moved from that cell on the rest of that row 
-    int matrix[17][5]{
+    int matrix[18][5]{
         {1,2,4,6,8},
         {2,1,3,9,0},
         {3,2,4,11,12},
@@ -133,6 +128,7 @@ list<int> Give_Possible_Moves(int cell) {
         {15,7,14,0,0},
         {16,7,17,0,0},
         {17,9,16,0,0},
+        {18,18,0,0,0},
     };
 
     //Goes through the matrix until it find the requested cell number, then loops through that row and adds the numbers of the cells that can be moved to to the Available_Moves list
@@ -203,10 +199,7 @@ list<int> Move_Aliens(list<int> Set_Up) {
     
     for (int Locs : Set_Up) {
         iterator++;
-        if (Locs == 18) {
-            ;
-        }
-        else if (iterator > 0 && iterator < 6) {
+        if (iterator > 0 && iterator < 6) {
             Alien_Loc.push_back(Locs);
         }
     }
@@ -214,18 +207,25 @@ list<int> Move_Aliens(list<int> Set_Up) {
     for (int Locs : Alien_Loc) {
         list<int> Available_Moves = Give_Possible_Moves(Locs);
         int New_Move = Choose_Radnom_Item_From_List(Available_Moves);
-        cout << endl << New_Move << endl;
         New_Alien_Loc.push_back(New_Move);
     }
 
-    for (int i : Alien_Loc) {
-        cout << endl << i;
+    int iterator2 = -1;
+    for (int i : Set_Up) {
+        iterator2++;
+        if (iterator2 > 0 && iterator2 < 6) {
+            int Placeholder = 0;
+            for (int j : New_Alien_Loc) {
+                Placeholder++;
+                if (Placeholder == iterator2) {
+                    New_Set_Up.push_back(j);
+                }
+            }
+        } else {
+            New_Set_Up.push_back(i);
+        }
     }
 
-    for (int i : New_Alien_Loc) {
-        cout << endl << i;
-    }
-    
     return Set_Up;
 }
 
@@ -308,11 +308,12 @@ int main() {
         //Displays the map and tells the user which cell they are currently in
         Display_Map();
         cout << "You currently are in cell " << Current_Cell;
-        Move_Aliens(Set_Up);
         
         //Moves the user and checks what is in that cell
         Current_Cell = move(Current_Cell);
         Check_Cell(Current_Cell, Set_Up);
+
+        Set_Up = Move_Aliens(Set_Up);
     }
     
     return 0;
